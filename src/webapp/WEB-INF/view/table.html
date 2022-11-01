@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+</head>
+<body>
+<div>
+<table th:border="5">
+    <tr>
+        <td th:text="id"></td>
+        <td th:text="first_name"></td>
+        <td th:text="last_name"></td>
+        <td th:text="email"></td>
+    </tr>
+    <th:block th:each="msg : ${users}">
+        <tr>
+            <td th:text="${msg.id}"></td>
+            <td th:text="${msg.firstName}"></td>
+            <td th:text="${msg.lastName}"></td>
+            <td th:text="${msg.email}"></td>
+            <td>
+                <form th:method="DELETE" th:action = "@{/users/{id}(id=${msg.id})}">
+                    <input type=submit value="delete">
+                </form>
+            </td>
+
+            <td>
+                <form th:method="GET" th:action = "@{/users/update/{id}(id=${msg.id})}">
+                    <input type=submit value="update">
+                </form>
+            </td>
+
+        </tr>
+    </th:block>
+</table>
+<br>
+<br>
+<a th:href="@{users/new}" th:text="add"></a>
+</div>
+</body>
+</html>
