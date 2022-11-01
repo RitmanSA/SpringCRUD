@@ -1,45 +1,47 @@
 package web.dao;
 
+import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import web.model.User;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.List;
 
 @Repository
 public class UserDaoImpl implements UserDao {
-    @Override
-    public void addUser() {
+    @PersistenceContext
+    private EntityManager em;
 
+    @Override
+    public void addUser(User user) {
+        em.persist(user);
     }
 
     @Override
-    public void deleteUser() {
-
+    public void deleteUser(Long id) {
+        em.remove(em.find(User.class, id));
     }
 
     @Override
-    public void changeUserFirstName() {
-
+    public void changeUser(Long id, User newUser) {
+        User user = em.find(User.class, id);
+        user.setEmail(newUser.getEmail());
+        user.setFirstName(newUser.getFirstName());
+        user.setLastName(newUser.getLastName());
     }
 
     @Override
-    public void changeUserLastName() {
-
-    }
-
-    @Override
-    public void changeUserEmail() {
-
-    }
-
-    @Override
-    public User getUserById() {
-        return null;
+    public User findById(Long id) {
+        return em.find(User.class, id);
     }
 
     @Override
     public List<User> getAllUsers() {
-        return null;
+        return em.createQuery("select users from User users", User.class).getResultList();
     }
 }
