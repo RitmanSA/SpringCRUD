@@ -7,7 +7,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import web.model.User;
 import web.service.UserService;
@@ -28,10 +27,10 @@ public class CrudController {
     @GetMapping("/users/new")
     public String newUser(Model model) {
         model.addAttribute("user", new User());
-        return "new";
+        return "form";
     }
 
-    @PostMapping("/users/add")
+    @PostMapping("/users/update")
     public String create(@ModelAttribute("user") User user) {
         userService.addUser(user);
         return "redirect:/users";
@@ -46,9 +45,9 @@ public class CrudController {
     @GetMapping("/users/update/{id}")
     public String selectUser(Model model, @ModelAttribute("id") Long id) {
         model.addAttribute("user", userService.getById(id));
-        return "update";
+        return "form";
     }
-    @PatchMapping("/users/update/{id}")
+    @PostMapping("/users/update/{id}")
     public String update(@ModelAttribute("id") Long id, @ModelAttribute("user") User user) {
         userService.changeUser(id, user);
         return "redirect:/users";
