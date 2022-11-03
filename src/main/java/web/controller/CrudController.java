@@ -13,14 +13,14 @@ import web.model.User;
 import web.service.UserService;
 
 @Controller
-public class TestController {
-    UserService userService;
+public class CrudController {
+    private final UserService userService;
     @Autowired
-    public TestController(UserService userService) {
+    public CrudController(UserService userService) {
         this.userService = userService;
     }
     @GetMapping("/users")
-    public String printWelcome(ModelMap model) {
+    public String printUsers(ModelMap model) {
         model.addAttribute("users", userService.getAllUsers());
         return "table";
     }
